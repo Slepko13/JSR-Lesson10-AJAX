@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax</title>
+    <style>
+        li {
+
+            margin-bottom: 5px;
+        }
+
+        ul {
+            color: blue;
+
+        }
+
+        span {
+            color: red;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Task 1</p>
+    <div>Choose category to fetch</div>
+    <select name=propType" id="propTypeFetch">
+        <option value="films">films</option>
+        <option value="people">people</option>
+        <option value="species">species</option>
+        <option value="planets">planets</option>
+        <option value="starships">starships</option>
+        <option value="vehicles">vehicles</option>
+    </select>
+    <button id="fetchButton" onclick="startFetch()">Start fetch</button>
+    <img style="display :none" id="fetchPreloader" src="./Spinner-1s-550px transparent.svg" alt="">
+
+
+    <p>Task 2</p>
+    <div style="margin-top: 10px;">Choose category and input your search value</div>
+    <select name=propType" id="propTypeSearch">
+        <option value="people">people</option>
+        <option value="films">films</option>
+        <option value="species">species</option>
+        <option value="planets">planets</option>
+        <option value="starships">starships</option>
+        <option value="vehicles">vehicles</option>
+    </select>
+    <input id="searchInput" type="text" value="luke">
+    <button id="searchButton" onclick="startSearch()">Start search</button>
+    <img style="display :none" id="searchPreloader" src="./Spinner-1s-550px transparent.svg" alt="">
+
+    <script src="main.js"></script>
+</body>
+
+</html>
