@@ -96,7 +96,7 @@ function startSearch() {
                                 console.log('key in fetch: ', key);
                                 console.log('fetch data[key]: ', data[key]);
                                 let listElem = document.createElement('li');
-                                listElem.innerHTML = `${home} : <span>${data.name}</span>;`
+                                listElem.innerHTML = `${home} : <span>${data.name || data.title}</span>;`
                                 searchList.append(listElem);
                             });
                     }
@@ -144,7 +144,7 @@ function startSearch() {
 
             } else {
                 let arr = data.results;
-                arr.map(item => searchList.innerHTML += `<li class="searchListItem" onclick="chooseItem(this.innerText,document.getElementById('propTypeSearch').value)"> ${item.name}</li>`);
+                arr.map(item => searchList.innerHTML += `<li class="searchListItem" onclick="chooseItem(this.innerText,document.getElementById('propTypeSearch').value)"> ${item.name || item.title}</li>`);
                 searchPreloader.style.display = "none";
                 searchButton.after(searchList);
             }
