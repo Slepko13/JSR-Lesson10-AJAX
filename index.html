@@ -13,6 +13,15 @@
 
         }
 
+        .searchListItem {
+            color: red;
+        }
+
+        .searchListItem:hover {
+            color: blue;
+            cursor: pointer;
+        }
+
         li {
 
             margin-bottom: 5px;
@@ -56,8 +65,9 @@
         <option value="starships">starships</option>
         <option value="vehicles">vehicles</option>
     </select>
-    <input id="searchInput" type="text" value="luke">
+    <input id="searchInput" type="text" value="lu">
     <button id="searchButton" onclick="startSearch()">Start search</button>
+
     <img style="display :none" id="searchPreloader" src="./Spinner-1s-550px transparent.svg" alt="">
 
     <script src="main.js"></script>
