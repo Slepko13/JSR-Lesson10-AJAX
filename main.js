@@ -1,6 +1,8 @@
 let mainUrl = `https://swapi.dev/api/`;
+let posterUrl = `http://www.omdbapi.com/?apikey=c19821a5`
 let fetchList;
-let searchList
+let searchList;
+let closeList;
 let fetchPreloader = document.getElementById('fetchPreloader');
 
 
@@ -8,11 +10,12 @@ function startFetch() {
     if (fetchList) {
         fetchList.remove();
     }
+
     fetchList = document.createElement('ul');
     let prop = document.getElementById('propTypeFetch').value;
     fetchPreloader.style.display = "block";
     let fetchButton = document.getElementById('fetchButton');
-    let promise = fetch(mainUrl + prop).then(response => response.json()).then(data => fetch(data.results[0].url))
+    fetch(mainUrl + prop).then(response => response.json()).then(data => fetch(data.results[0].url))
         .then(response => response.json()).then(data => {
 
             for (key in data) {
@@ -24,8 +27,10 @@ function startFetch() {
 
                         fetch(data[key][i]).then(response => response.json())
                             .then(data => {
+
                                 subListItem.innerHTML = `<span>${data.name || data.title}</span>`;
                                 subList.append(subListItem);
+
                             });
 
 
@@ -38,15 +43,16 @@ function startFetch() {
                 }
             }
             fetchPreloader.style.display = "none";
-
             fetchButton.after(fetchList);
-            let closeList = document.createElement('button');
+            if (closeList) {
+                closeList.remove();
+            }
+            closeList = document.createElement('button');
             closeList.addEventListener('click', function () {
                 fetchList.remove();
                 closeList.style.display = "none";
             })
             closeList.innerHTML = "Close list";
-            console.log(closeList);
             fetchList.after(closeList);
 
 
@@ -102,11 +108,31 @@ function startSearch() {
                             subList.innerHTML = `${key}`;
                             for (let i = 0; i < obj[key].length; i++) {
                                 let subListItem = document.createElement('li');
-
                                 fetch(obj[key][i]).then(response => response.json())
                                     .then(data => {
-                                        subListItem.innerHTML = `<span>${data.name || data.title}</span>`;
-                                        subList.append(subListItem);
+                                        if (data.title) {
+                                            subList.classList.add('films');
+                                            console.log(data.title);
+                                            console.log(parseInt(data["release_date"]));
+                                            fetch(`http://www.omdbapi.com/?s=${data.title}&y=${parseInt(data["release_date"])}&apikey=c19821a5`)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    console.log(data);
+                                                    console.log(data.Search[0].Poster);
+
+                                                    subListItem.innerHTML = `<p></p><div>${data.Search[0].Title}</div><p></p><img src="${data.Search[0].Poster}">`;
+                                                    subList.append(subListItem);
+
+                                                })
+
+
+                                        } else {
+
+                                            subListItem.innerHTML = `<span>${data.name}</span>`;
+                                            subList.append(subListItem);
+                                        }
+
+
                                     });
 
 
@@ -133,3 +159,22 @@ function startSearch() {
 
 
 }
+
+async function films(title, year) {
+    // const title = "A New Hope";
+    // const year = 1977
+    let poster = document.createElement('img');
+    const url = `http://www.omdbapi.com/?s=${title}&y=${year}&apikey=c19821a5`;
+    await fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            console.log(data.Search[0].Poster);
+            // poster.setAttribute('src', data.Search[0].Poster);
+            return data.Search[0].Poster;
+
+        })
+    // poster.setAttribute('src', '')
+    // subListItem.append(poster);
+}
+// films("A New Hope", 1977);
